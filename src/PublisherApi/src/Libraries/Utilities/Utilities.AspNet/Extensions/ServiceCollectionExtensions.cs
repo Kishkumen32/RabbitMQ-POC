@@ -16,8 +16,6 @@ namespace Utilities.AspNet.Extensions
 
             setup(redisOptions);
 
-            var logger = services.
-
             var connectionString = redisOptions.ConnectionString;
 
             var redis = ConnectionMultiplexer.Connect(connectionString);
