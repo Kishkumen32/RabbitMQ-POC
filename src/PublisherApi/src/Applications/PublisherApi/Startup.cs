@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using System;
 using System.Linq;
 using System.Reflection;
 using Infrastructure.AspNet.Extensions;
@@ -24,7 +23,9 @@ namespace WebApi
 
         public IConfiguration Configuration { get; }
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public ILifetimeScope AutofacContainer { get; set; }
+
+        public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureRedis(options => 
             {
@@ -37,11 +38,10 @@ namespace WebApi
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddSwaggerGen();
+        }
 
-            var builder = new ContainerBuilder();
-
-            builder.Populate(services);
-
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
             var controllerTypesInAssembly = typeof(Startup).Assembly
                                                            .GetExportedTypes()
                                                            .Where(type => typeof(ControllerBase).IsAssignableFrom(type))
@@ -49,14 +49,12 @@ namespace WebApi
 
             builder.RegisterTypes(controllerTypesInAssembly)
                    .PropertiesAutowired();
-
-            var container = builder.Build();
-
-            return new AutofacServiceProvider(container);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
@@ -83,4 +81,3 @@ namespace WebApi
         }
     }
 }
-
