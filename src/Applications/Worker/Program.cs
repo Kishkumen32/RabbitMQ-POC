@@ -2,14 +2,13 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Net.Http.Headers;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Newtonsoft.Json;
 
-namespace TwitchBot
+namespace Worker
 {
     class Program
     {

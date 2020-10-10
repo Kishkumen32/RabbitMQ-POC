@@ -2,8 +2,8 @@ services:
     publisher-api:
         image: publisher-api:${TAG:-latest}
         build:
-            context: src/PublisherApi/.
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: Dockerfile.PublisherApi
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - Redis__Host=redis_db
@@ -16,6 +16,16 @@ services:
             retries: 3
         depends_on:
             - redis_db
+            - rabbitmq
+
+    worker:
+        image: worker:${TAG:-latest}
+        build:
+            context: .
+            dockerfile: Dockerfile.Worker
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        depends_on:
             - rabbitmq
 
     redis_db:
