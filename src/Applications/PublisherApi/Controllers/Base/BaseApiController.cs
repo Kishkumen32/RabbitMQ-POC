@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace PublisherApi.Controllers
 {
@@ -7,6 +6,6 @@ namespace PublisherApi.Controllers
     [ApiController]
     public class BaseApiController : ControllerBase
     {
-        public IMediator Mediator { get; set; }
+
     }
 }

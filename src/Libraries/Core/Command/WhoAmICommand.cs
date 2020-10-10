@@ -1,9 +1,8 @@
-﻿using Core.Entities;
-using MediatR;
+﻿using Core.Interfaces;
 
 namespace Core.Command
 {
-    public class WhoAmICommand : IRequest<User>
+    public class WhoAmICommand : IWhoAmICommand
     {
         public string Username { get; set; }
     }
