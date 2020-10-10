@@ -11,6 +11,7 @@ using Serilog;
 using System.Linq;
 using System.Reflection;
 using Infrastructure.AspNet.Extensions;
+using Core.Handlers;
 
 namespace WebApi
 {
@@ -33,9 +34,11 @@ namespace WebApi
             });
 
             services.AddHealthChecks();
-            services.AddControllers();
+            services.AddControllers()
+                    .AddControllersAsServices();
 
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(Assembly.GetExecutingAssembly(),
+                                typeof(WhoAmIHandler).Assembly);
 
             services.AddSwaggerGen();
         }
