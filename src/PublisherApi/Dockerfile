@@ -23,8 +23,4 @@ COPY --from=build /app ./
 
 ENV ASPNETCORE_URLS=http://+:5000
 
-ENV Redis:Host=192.168.7.10
-ENV Redis:Port=6379
-ENV Redis:Password=abc123
-
 ENTRYPOINT ["dotnet", "PublisherApi.dll"]

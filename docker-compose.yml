@@ -1,11 +1,30 @@
 services:
-    rabbitmq:
-        image: rabbitmq:3-management-alpine
-        container_name: rabbitmq
+    publisher-api:
+        image: publisher-api:${TAG:-latest}
+        build:
+            context: src/PublisherApi/.
+            dockerfile: Dockerfile
         environment:
-            RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
-            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+            - ASPNETCORE_ENVIRONMENT=Development
+            - Redis__Host=redis_db
         ports:
-            - 5672:5672
-            - 15672:15672
+            - 5000:5000
+        healthcheck:
+            test: curl --fail -s http://publisher-api:5000/ || exit 1
+            interval: 1m30s
+            timeout: 10s
+            retries: 3
+        depends_on:
+            - redis_db
+
+    redis_db:
+        image: redis
+        container_name: cache
+        ports:
+        - "6379:6379"
+        restart: unless-stopped
+        volumes:
+        - redis_volume:/data
+
+volumes:
+    redis_volume:
