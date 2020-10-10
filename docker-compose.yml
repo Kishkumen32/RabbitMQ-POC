@@ -10,8 +10,8 @@ services:
         ports:
             - 5000:5000
         healthcheck:
-            test: curl --fail -s http://publisher-api:5000/ || exit 1
-            interval: 1m30s
+            test: curl --fail -s http://publisher-api:5000/api/HealthCheck || exit 1
+            interval: 30s
             timeout: 10s
             retries: 3
         depends_on:
