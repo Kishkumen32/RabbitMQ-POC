@@ -3,11 +3,9 @@ WORKDIR /source
 
 # copy csproj and restore as distinct layers
 COPY *.sln .
-COPY src/Libraries/Data/Data/*.csproj ./src/Libraries/Data/Data/
-COPY src/Libraries/Data/Data.Entities/*.csproj ./src/Libraries/Data/Data.Entities/
-COPY src/Libraries/Services/*.csproj ./src/Libraries/Services/
-COPY src/Libraries/Utilities/Utilities/*.csproj ./src/Libraries/Utilities/Utilities/
-COPY src/Libraries/Utilities/Utilities.AspNet/*.csproj ./src/Libraries/Utilities/Utilities.AspNet/
+COPY src/Libraries/Core/*.csproj ./src/Libraries/Core/
+COPY src/Libraries/Infrastructure/Infrastructure/*.csproj ./src/Libraries/Infrastructure/Infrastructure/
+COPY src/Libraries/Infrastructure/Infrastructure.AspNet/*.csproj ./src/Libraries/Infrastructure/Infrastructure.AspNet/
 COPY src/Applications/PublisherApi/*.csproj ./src/Applications/PublisherApi/
 RUN dotnet restore
 

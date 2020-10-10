@@ -1,4 +1,4 @@
-﻿namespace Utilities.Settings
+namespace Core.Settings
 {
     public class Redis
     {
