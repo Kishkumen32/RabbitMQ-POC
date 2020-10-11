@@ -8,6 +8,7 @@ using Infrastructure.AspNet.Extensions;
 using MassTransit;
 using Core.Consumers;
 using Core.Interfaces;
+using Core.Settings;
 
 namespace WebApi
 {
@@ -31,17 +32,27 @@ namespace WebApi
             services.AddControllers()
                     .AddControllersAsServices();
 
-            services.AddMediator(cfg =>
+            services.AddMassTransit(x =>
             {
-                cfg.AddConsumer<WhoAmIConsumer>();
-                cfg.AddRequestClient<IWhoAmICommand>();
+                x.SetKebabCaseEndpointNameFormatter();
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    var rabbitMqConfiguration = new RabbitMq();
+
+                    Configuration.GetSection("RabbitMq").Bind(rabbitMqConfiguration);
+
+                    cfg.Host(rabbitMqConfiguration.HostAddress, rabbitMqConfiguration.VirtualHost, (cfg) =>
+                    {
+                        cfg.Username(rabbitMqConfiguration.Username);
+                        cfg.Password(rabbitMqConfiguration.Password);
+                    });
+                    cfg.ConfigureEndpoints(context); 
+                });
+
+                x.AddRequestClient<IWhoAmICommand>();
             });
 
-            //services.AddMassTransit(cfg =>
-            //{
-            //    cfg.AddConsumer<WhoAmIConsumer>();
-            //    cfg.AddRequestClient<IWhoAmI>();
-            //});
+            services.AddMassTransitHostedService();
 
             services.AddSwaggerGen();
         }

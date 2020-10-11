@@ -1,12 +1,16 @@
 ﻿using System;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Text;
+using Core.Consumers;
+using Core.Settings;
+using MassTransit;
+using MassTransit.Definition;
+using MassTransit.RabbitMqTransport;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Newtonsoft.Json;
 
 namespace Worker
 {
@@ -20,23 +24,6 @@ namespace Worker
                               .AddEnvironmentVariables();
         #endregion
 
-        public static async Task PostMessage(string postData)
-        {
-            var json = JsonConvert.SerializeObject(postData);
-            var content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-
-            using (var httpClientHandler = new HttpClientHandler())
-            {
-                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-                using (var client = new HttpClient(httpClientHandler))
-                {
-                    var result = await client.PostAsync("https://192.168.7.10:5001/api/values", content);
-                    string resultContent = await result.Content.ReadAsStringAsync();
-                    Console.WriteLine("Server returned: " + resultContent);
-                }
-            }
-        }
-        
         public static async Task Main(string[] args)
         {
             var builder = new ConfigurationBuilder();
@@ -51,8 +38,6 @@ namespace Worker
             try
             {
                 Log.Information("Starting host");
-
-                PostMessage("test message").Wait();
 
                 var host = CreateHostBuilder(args).Build();
 
@@ -86,7 +71,27 @@ namespace Worker
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
+                    services.AddMassTransit(x => 
+                    {
+                        x.AddConsumersFromNamespaceContaining<WhoAmIConsumer>();
+                        x.SetKebabCaseEndpointNameFormatter();
+                        x.UsingRabbitMq((context, cfg) => 
+                        {
+                            var rabbitMqConfiguration = new RabbitMq();
 
+                            hostContext.Configuration.GetSection("RabbitMq").Bind(rabbitMqConfiguration);
+
+                            cfg.Host(rabbitMqConfiguration.HostAddress,rabbitMqConfiguration.VirtualHost, (cfg) => 
+                            { 
+                                cfg.Username(rabbitMqConfiguration.Username);
+                                cfg.Password(rabbitMqConfiguration.Password);
+                            });
+                            cfg.ConfigureEndpoints(context);
+                        });
+                    });
+
+                    services.AddHostedService<Worker>();
                 })
                 .UseSerilog();
     }

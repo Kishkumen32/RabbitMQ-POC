@@ -14,11 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{17A1177A-7925-4264-B95B-01AA266F8E87}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6A4EACB3-C668-497F-A61C-86561C7AE99B}"
-	ProjectSection(SolutionItems) = preProject
-		.dockerignore = .dockerignore
-		..\..\docker-compose.yml = ..\..\docker-compose.yml
-		Dockerfile = Dockerfile
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,18 +37,6 @@ Global
 		{78BBC6D7-8CC1-48DD-A374-9E0CBEA50773}.Release|x64.Build.0 = Release|Any CPU
 		{78BBC6D7-8CC1-48DD-A374-9E0CBEA50773}.Release|x86.ActiveCfg = Release|Any CPU
 		{78BBC6D7-8CC1-48DD-A374-9E0CBEA50773}.Release|x86.Build.0 = Release|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Debug|x64.Build.0 = Debug|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Debug|x86.Build.0 = Debug|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Release|x64.ActiveCfg = Release|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Release|x64.Build.0 = Release|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Release|x86.ActiveCfg = Release|Any CPU
-		{0093C93C-33B7-45FA-A357-245BC4711BB3}.Release|x86.Build.0 = Release|Any CPU
 		{01FACE04-20ED-4093-B18E-000465257566}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01FACE04-20ED-4093-B18E-000465257566}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01FACE04-20ED-4093-B18E-000465257566}.Debug|x64.ActiveCfg = Debug|Any CPU

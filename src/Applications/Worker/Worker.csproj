@@ -5,8 +5,10 @@
     <UserSecretsId>d71b9f0c-f8e9-43a5-a845-1acbda5b8eb7</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="7.0.4" />
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.4" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.8" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.8" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="3.1.0" />
@@ -27,5 +29,9 @@
     <Content Include="hostsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Libraries\Infrastructure\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 </Project>
